@@ -1,0 +1,50 @@
+<%- if logged_in? && (params[:user_id].to_i == current_user.id) -%>
+	<%= render :partial => 'mini_form' %>
+<%- end -%>
+
+<hr>
+<div class="unit hentry">
+	<div class="entry-content">
+		<%= markdown(@unit.body) %>
+	</div>
+</div>
+<hr>
+
+
+<% unless @unit.prev_from_author.nil? %>
+	<%= link_to '<<', user_unit_path(@author, @unit.prev_from_author) %>
+<%- end -%>
+
+
+<% unless @unit.next_from_author.nil? %>
+	<%= link_to '>>', user_unit_path(@author, @unit.next_from_author) %>
+<%- end -%>
+
+
+
+<%- content_for :meta do -%>
+
+	<%= tag(:link, :rel => "alternate",
+		:type => "application/atom+xml",
+		:href => formatted_user_units_url(:format => :atom)) %>
+	
+	<head profile="http://www.nature.com/common/xmdp-profiles/hatom.html">
+		
+	<meta name="DC.date" content="<%= @unit.created_at.to_s(:db) %>" />
+	<meta name="DC.creator" content="<%= @unit.user.login %> - Arritmia" />
+
+	<link rel="start" href="<%= user_unit_path(@author, @author.latest_unit) %>">
+	<link rel="bookmark" href="<%= user_unit_path(@author, @unit) %>">
+	<link rel="copyright" href="http://sam.zoy.org/wtfpl/COPYING">
+	
+	<% unless @unit.prev_from_author.nil? %>
+		<link rel="prev" href="<%= user_unit_path(@author, @unit.prev_from_author) %>">
+	<%- end -%>
+
+	<% unless @unit.next_from_author.nil? %>
+		<link rel="next" href="<%= user_unit_path(@author, @unit.next_from_author) %>">
+	<%- end -%>
+	
+
+
+<%- end -%>

@@ -1,0 +1,17 @@
+<% 
+form_for(:new_unit, :url => user_units_path(current_user)) do |f| 
+	%>
+	<label>New
+		<p>
+			<%= f.text_area :body, :size => "75x5" %>
+		</p>	
+  </label>
+	<p>
+		<%= link_to 'More?', new_user_unit_path(current_user) %>
+	</p>	
+
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>

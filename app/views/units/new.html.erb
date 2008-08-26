@@ -1,0 +1,19 @@
+<%= error_messages_for :unit %>
+
+<% form_for(:new_unit, :url => user_units_path(current_user)) do |f| %>
+
+	<label>New
+		<p>
+			<%= f.text_area :body, :size => "120x40" %>
+		</p>	
+		
+  </label>
+
+	
+
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
