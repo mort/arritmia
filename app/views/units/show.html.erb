@@ -1,4 +1,4 @@
-<%- if logged_in? && (params[:user_id].to_i == current_user.id) -%>
+<%- if logged_in? && (@unit.user == current_user) -%>
 	<%= render :partial => 'mini_form' %>
 <%- end -%>
 
@@ -10,23 +10,34 @@
 </div>
 <hr>
 
+<ul id="pager">
+	
+	
+	<!--
+		<li><%= link_to '&#8593;', '#', :title => 'Coming soon' %></li>
+	-->
+	
+	<% unless @unit.prev_from_author.nil? %>
+		<li><%= link_to '&#8592;', user_unit_path(@author, @unit.prev_from_author) %></li>
+	<%- end -%>
 
-<% unless @unit.prev_from_author.nil? %>
-	<%= link_to '<<', user_unit_path(@author, @unit.prev_from_author) %>
-<%- end -%>
 
+	<% unless @unit.next_from_author.nil? %>
+		<li><%= link_to '&#8594;', user_unit_path(@author, @unit.next_from_author) %></li>
+	<%- end -%>
+	
+	<!--
+	<li><%= link_to '&#8595;', '#', :title => 'Coming soon' %></li>
+	-->
 
-<% unless @unit.next_from_author.nil? %>
-	<%= link_to '>>', user_unit_path(@author, @unit.next_from_author) %>
-<%- end -%>
-
-
+</ul>	
+	
 
 <%- content_for :meta do -%>
 
 	<%= tag(:link, :rel => "alternate",
 		:type => "application/atom+xml",
-		:href => formatted_user_units_url(:format => :atom)) %>
+		:href => formatted_user_units_url(@unit.user,:format => :atom)) %>
 	
 	<head profile="http://www.nature.com/common/xmdp-profiles/hatom.html">
 		

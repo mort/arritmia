@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :except => :show
+  #before_filter :login_required, :except => :show, :new, :create
 
   # render new.rhtml
   def new

@@ -5,9 +5,15 @@ require 'units_controller'
 class UnitsController; def rescue_action(e) raise e end; end
 
 class UnitsControllerTest < Test::Unit::TestCase
- 
+  fixtures(:users)  
+    
   context 'a logged user' do
     setup {
+      
+      @controller = UnitsController.new
+      @request    = ActionController::TestRequest.new
+      @response   = ActionController::TestResponse.new
+      
       login_as(:quentin)
     }
     

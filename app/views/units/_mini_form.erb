@@ -1,17 +1,17 @@
+<div id="mini_form">
 <% 
 form_for(:new_unit, :url => user_units_path(current_user)) do |f| 
 	%>
 	<label>New
 		<p>
-			<%= f.text_area :body, :size => "75x5" %>
+			<%= f.text_area :body, :rows => '5' %>
 		</p>	
   </label>
-	<p>
+	<p id="more_link">
 		<%= link_to 'More?', new_user_unit_path(current_user) %>
 	</p>	
-
-
   <p>
     <%= submit_tag "Create" %>
   </p>
 <% end %>
+</div>

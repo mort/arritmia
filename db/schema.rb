@@ -12,7 +12,7 @@
 ActiveRecord::Schema.define(:version => 2) do
 
   create_table "units", :force => true do |t|
-    t.integer  "user_id",    :limit => 11
+    t.integer  "user_id"
     t.text     "body"
     t.string   "token"
     t.datetime "created_at"

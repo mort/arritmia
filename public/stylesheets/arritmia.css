@@ -1,0 +1,26 @@
+body {
+  font-family:georgia,serif;
+	color:#555555;
+	font-size:1.1em;
+	font-weight:normal;
+	line-height:150%;
+	padding:0px; 
+}
+
+hr {
+	display: none;
+}
+
+label {
+	display:none;
+}
+
+div#container {
+	padding: 0 3em;
+	margin: 0 auto;
+	width: 100;
+}
+
+ul#pager {
+	list-syle-type:none;
+}

@@ -1,4 +1,7 @@
 require 'digest/sha1'
+require 'fileutils'
+include FileUtils
+
 class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :password
@@ -63,6 +66,19 @@ class User < ActiveRecord::Base
     self.remember_token_expires_at = nil
     self.remember_token            = nil
     save(false)
+  end
+  
+  def makezine
+    @user = self
+    
+    dir = "#{RAILS_ROOT}/public/zines/#{id}/" 
+    template = File.read("#{RAILS_ROOT}/app/templates/zine.html")
+    filename = dir+"index.html"
+    
+    FileUtils.mkdir(dir) unless File.directory?(dir)
+    
+    t = ERB.new(template).result(binding)
+    File.open(filename, 'w') {|f| f.write(t) }
   end
 
   protected

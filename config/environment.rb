@@ -21,3 +21,5 @@ end
 # Mime::Type.register "application/x-mobile", :mobile
 
 # Include your application configuration below
+
+SITE_URL = 'http://0.0.0.0:3000/'

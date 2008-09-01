@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Arritmia / mort</title>
+	
+	<style type="text/css">
+		div#sidebar {
+			width: 200px;
+			float: left;
+		}
+		div#canvas {
+			width: 750px;
+			clear: both	;
+		}
+	</style>
+	
+	<link href="http://0.0.0.0:3000/users/1/units.format=atom" rel="alternate" type="application/atom+xml" />
+		
+	<script type="text/javascript" src="/javascripts/dist/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript" src="/javascripts/dist/trimpath-template-1.0.38.js"></script>
+	<script type="text/javascript">
+	
+	if (typeof(Arritmia) == 'undefined') var Arritmia = {};
+	
+	Arritmia.dataLoader = function(){
+		
+		var util = {
+			_endpoint:'http://0.0.0.0:3000/',
+			_urlSplit:function(){
+				var u = window.location.href;
+				var temp = new Array();
+				console.log(window.location.href);
+				temp = u.split('#');
+				console.log(temp.length)
+				return temp;
+			},
+			_urlType:function(){
+				t = 'index';
+				if (util._urlSplit().length > 1) {
+					t = 'bookmark';
+				}
+				console.log(t);
+				return t;
+			},
+			_unitId:function(){
+			  var temp = util._urlSplit();
+				return temp[1];	
+			}
+		};
+		
+		var obj = {
+			
+			indexUrl: util._endpoint + 'users/1/units.json?callback=?',
+			unitUrl: util._endpoint + 'users/1/units/'+util._unitId()+'.json?callback=?',	
+			
+			init:function(){
+				console.log('init');
+				var v = util._urlType();
+				if (v=='index') {
+					obj.loadUnits();
+				}
+				else if(v=='bookmark') {
+					obj.loadUnit();
+				}
+				
+			},
+			loadUnits:function() {
+				$.getJSON(obj.indexUrl, function(data){
+					var o = new Object();
+					o.data = data;
+					var result = TrimPath.processDOMTemplate("unit_list_jst", o);
+			    document.getElementById('arritmia_canvas').innerHTML = result;
+				});
+			},
+			loadUnit:function() {
+				$.getJSON(obj.unitUrl, function(data){
+					var o = new Object();
+					console.log(data)
+					o.data = data;
+					console.log(o.data)
+					var result = TrimPath.processDOMTemplate("unit_jst", o);
+			    document.getElementById('arritmia_canvas').innerHTML = result;
+				});
+			}
+		
+		}
+		
+	 obj.util = util;	
+	 return obj;	
+	 }();
+	
+	
+	 $(document).ready(function(){ 
+			Arritmia.dataLoader.init();
+		});
+	
+	</script>
+	
+	<!-- Date: 2008-08-30 -->
+</head>
+<body>
+	
+	<textarea id="unit_jst" style="display:none;">
+		<div id="unit">
+			${data.body_html}
+		<p>
+			by ${data.user_login}
+		</p>	
+		<p>
+			<a href="#${u.id}" rel="bookmark">#</a>
+		</p>	
+		</div>
+	</textarea>	
+	
+
+<textarea id="unit_list_jst" style="display:none;">
+{for u in data}
+	<div id="units">
+		${u.body_html}
+	<p>
+		<a href="./index.html#${u.id}" rel="bookmark">#</a>
+	</p>	
+	</div>
+	<hr>
+{forelse}
+	<div>No units available.</div>
+{/for}
+</textarea>
+
+	
+<div id="header">
+</div>		
+
+<div id="sidebar">
+</div>	
+
+<div id="arritmia_canvas">
+</div>
+
+<div id="footer">
+</div>
+
+</body>
+</html>

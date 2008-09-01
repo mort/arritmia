@@ -1,0 +1,2 @@
+module ZinesHelper
+end

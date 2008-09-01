@@ -1,10 +1,12 @@
+<div id="new_unit_form">
+	
 <%= error_messages_for :unit %>
 
 <% form_for(:new_unit, :url => user_units_path(current_user)) do |f| %>
 
 	<label>New
 		<p>
-			<%= f.text_area :body, :size => "120x40" %>
+			<%= f.text_area :body, :id => 'new_unit' %>
 		</p>	
 		
   </label>
@@ -17,3 +19,18 @@
   </p>
 <% end %>
 
+</div>
+
+
+<%- content_for :head  do -%>
+	<script type="text/javascript">
+	  function resize() {
+
+			document.getElementById('new_unit')..wrappedJSObject.scrollIntoView(false);
+			
+  	}
+
+   window.onload = resize;
+	</script>
+
+<%- end -%>
